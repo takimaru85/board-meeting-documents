@@ -1,19 +1,23 @@
 /**
  * Board Meeting Documents – frontend styles.
  *
- * Card list: white rounded cards with a soft shadow, a day/month badge on the
- * left, bold title and muted subtitle. Colours are exposed as custom
- * properties on .bmd-wrapper so a theme can retune them in one rule:
+ * Card list: white rounded cards with a soft shadow, a badge on the left,
+ * bold title and muted subtitle. Used by both [board_meetings] (date badge)
+ * and [board_documents] (PDF badge) so the two pages look like one system.
  *
+ * Selectors are deliberately prefixed with .bmd-wrapper so they beat common
+ * theme rules such as ".entry-content a" or ".site button" without !important.
+ *
+ * Colours are custom properties; a theme can retune them in one rule:
  *   .bmd-wrapper { --bmd-navy: #123a4f; --bmd-accent: #e8735a; }
  */
 
 .bmd-wrapper {
 	/* Palette */
-	--bmd-navy: #14364d;          /* titles, past-meeting badge */
+	--bmd-navy: #14364d;          /* titles, badges */
 	--bmd-accent: #e8735a;        /* upcoming-meeting badge */
 	--bmd-muted: #6b7280;         /* cancelled badge */
-	--bmd-badge-text: #f4f0b3;    /* day/month text on the navy badge */
+	--bmd-badge-text: #f4f0b3;    /* text/icon on the navy badge */
 	--bmd-card-bg: #ffffff;
 	--bmd-text: #14364d;
 	--bmd-subtext: #3f4a55;
@@ -33,71 +37,121 @@
 	box-sizing: inherit;
 }
 
-.bmd-heading {
+.bmd-wrapper .bmd-heading {
 	margin: 0 0 0.75em;
 	color: var(--bmd-navy);
 	font-weight: 800;
 	letter-spacing: -0.01em;
 }
 
-/* ------------------------------------------------------------------ */
-/* Year accordion header – reads as a section heading, not a box       */
-/* ------------------------------------------------------------------ */
-.bmd-year {
-	margin: 0 0 1.5em;
+/* Lists */
+.bmd-wrapper .bmd-meetings,
+.bmd-wrapper .bmd-documents,
+.bmd-wrapper .bmd-doc-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
 
-.bmd-year-heading {
-	margin: 0 0 0.75em;
+.bmd-wrapper .bmd-meetings > li,
+.bmd-wrapper .bmd-doc-list > li {
+	margin: 0 0 1em;
+	padding: 0;
+	list-style: none;
+}
+
+.bmd-wrapper .bmd-meetings > li:last-child,
+.bmd-wrapper .bmd-doc-list > li:last-child {
+	margin-bottom: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Group headers (year / section) – a bold heading with a round toggle  */
+/* Reset every property a theme is likely to style on <button>.         */
+/* ------------------------------------------------------------------ */
+.bmd-wrapper .bmd-year,
+.bmd-wrapper .bmd-section {
+	margin: 0 0 1.75em;
+	padding: 0;
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+}
+
+.bmd-wrapper .bmd-year-heading,
+.bmd-wrapper .bmd-section-heading {
+	margin: 0 0 0.85em;
 	padding: 0;
 	font-size: inherit;
 	line-height: inherit;
 }
 
-.bmd-year-header {
+.bmd-wrapper button.bmd-year-header,
+.bmd-wrapper button.bmd-section-header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	width: 100%;
+	min-width: 0;
+	max-width: none;
+	height: auto;
+	min-height: 0;
 	margin: 0;
 	padding: 0.4em 0;
 	background: transparent;
+	background-image: none;
 	border: 0;
 	border-bottom: 2px solid rgba(20, 54, 77, 0.12);
 	border-radius: 0;
+	box-shadow: none;
 	color: var(--bmd-navy);
-	font: inherit;
+	font-family: inherit;
 	font-size: 1.5em;
 	font-weight: 800;
+	font-style: normal;
 	letter-spacing: -0.01em;
 	line-height: 1.2;
 	text-align: left;
 	text-decoration: none;
+	text-transform: none;
+	text-shadow: none;
 	cursor: pointer;
 	-webkit-appearance: none;
 	appearance: none;
 }
 
-.bmd-year-header:hover .bmd-toggle,
-.bmd-year-header:focus-visible .bmd-toggle {
-	background: var(--bmd-navy);
-	color: var(--bmd-badge-text);
+.bmd-wrapper button.bmd-year-header:hover,
+.bmd-wrapper button.bmd-section-header:hover,
+.bmd-wrapper button.bmd-year-header:active,
+.bmd-wrapper button.bmd-section-header:active {
+	background: transparent;
+	border-color: rgba(20, 54, 77, 0.3);
+	color: var(--bmd-navy);
+	box-shadow: none;
+	transform: none;
 }
 
-.bmd-year-header:focus {
+.bmd-wrapper button.bmd-year-header:focus,
+.bmd-wrapper button.bmd-section-header:focus {
 	outline: none;
+	box-shadow: none;
 }
 
-.bmd-year-header:focus-visible {
+.bmd-wrapper button.bmd-year-header:focus-visible,
+.bmd-wrapper button.bmd-section-header:focus-visible {
 	outline: 2px solid var(--bmd-navy);
 	outline-offset: 4px;
 }
 
-.bmd-year-label {
+.bmd-wrapper .bmd-year-label,
+.bmd-wrapper .bmd-section-title {
 	flex: 1 1 auto;
 }
 
-.bmd-toggle {
+/* Round toggle (± for years, chevron for sections) */
+.bmd-wrapper .bmd-toggle,
+.bmd-wrapper .bmd-chevron {
 	flex: 0 0 auto;
 	display: inline-flex;
 	align-items: center;
@@ -107,72 +161,96 @@
 	margin-left: 1em;
 	border-radius: 50%;
 	background: rgba(20, 54, 77, 0.08);
+	color: var(--bmd-navy);
 	font-size: 0.8em;
 	font-weight: 500;
 	line-height: 1;
-	transition: background-color 0.15s ease, color 0.15s ease;
+	transition: background-color 0.15s ease, color 0.15s ease, transform 0.2s ease;
 }
 
-.bmd-year-content {
+.bmd-wrapper .bmd-chevron svg {
+	display: block;
+	width: 0.9em;
+	height: 0.9em;
+	fill: none;
+	stroke: currentColor;
+}
+
+.bmd-wrapper .bmd-section.bmd-open .bmd-chevron {
+	transform: rotate(180deg);
+}
+
+.bmd-wrapper button.bmd-year-header:hover .bmd-toggle,
+.bmd-wrapper button.bmd-year-header:focus-visible .bmd-toggle,
+.bmd-wrapper button.bmd-section-header:hover .bmd-chevron,
+.bmd-wrapper button.bmd-section-header:focus-visible .bmd-chevron {
+	background: var(--bmd-navy);
+	color: var(--bmd-badge-text);
+}
+
+.bmd-wrapper .bmd-year-content,
+.bmd-wrapper .bmd-section-content {
 	padding: 0.25em 0 0;
 }
 
-.bmd-year-content[hidden] {
+.bmd-wrapper .bmd-year-content[hidden],
+.bmd-wrapper .bmd-section-content[hidden] {
 	display: none;
 }
 
 /* ------------------------------------------------------------------ */
-/* Cards                                                                */
+/* Cards (shared by meetings and documents)                             */
 /* ------------------------------------------------------------------ */
-.bmd-meetings,
-.bmd-documents {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-.bmd-meeting {
-	margin: 0 0 1em;
-	padding: 0;
-}
-
-.bmd-meeting:last-child {
-	margin-bottom: 0;
-}
-
-.bmd-card {
+.bmd-wrapper .bmd-card,
+.bmd-wrapper .bmd-doc-card {
 	display: flex;
 	align-items: center;
 	gap: 1.1em;
 	padding: 1em 1.25em;
 	background: var(--bmd-card-bg);
+	border: 0;
 	border-radius: var(--bmd-radius);
 	box-shadow: var(--bmd-shadow);
-	color: inherit;
+	color: var(--bmd-text);
 	text-decoration: none;
 	transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-/* Whole-card link */
-a.bmd-card:hover,
-a.bmd-card:focus-visible {
-	transform: translateY(-2px);
-	box-shadow: var(--bmd-shadow-hover);
+/* Whole-card links: no underline anywhere inside, even with theme link rules */
+.bmd-wrapper a.bmd-card,
+.bmd-wrapper a.bmd-doc-card,
+.bmd-wrapper a.bmd-card *,
+.bmd-wrapper a.bmd-doc-card *,
+.bmd-wrapper a.bmd-document-link {
 	text-decoration: none;
-	color: inherit;
+	border-bottom: 0;
+	box-shadow: none;
 }
 
-a.bmd-card:focus {
+.bmd-wrapper a.bmd-card:hover,
+.bmd-wrapper a.bmd-card:focus-visible,
+.bmd-wrapper a.bmd-doc-card:hover,
+.bmd-wrapper a.bmd-doc-card:focus-visible {
+	transform: translateY(-2px);
+	box-shadow: var(--bmd-shadow-hover);
+	color: var(--bmd-text);
+	text-decoration: none;
+}
+
+.bmd-wrapper a.bmd-card:focus,
+.bmd-wrapper a.bmd-doc-card:focus {
 	outline: none;
 }
 
-a.bmd-card:focus-visible {
+.bmd-wrapper a.bmd-card:focus-visible,
+.bmd-wrapper a.bmd-doc-card:focus-visible {
 	outline: 2px solid var(--bmd-navy);
 	outline-offset: 3px;
 }
 
-/* Date badge */
-.bmd-date {
+/* Badge (date for meetings, PDF icon for documents) */
+.bmd-wrapper .bmd-date,
+.bmd-wrapper .bmd-doc-icon {
 	flex: 0 0 auto;
 	display: flex;
 	flex-direction: column;
@@ -188,32 +266,40 @@ a.bmd-card:focus-visible {
 	text-align: center;
 }
 
-.bmd-date-day {
+.bmd-wrapper .bmd-date-day {
 	display: block;
 	font-size: 1.5em;
 	font-weight: 800;
 	letter-spacing: -0.02em;
 }
 
-.bmd-date-month {
+.bmd-wrapper .bmd-date-month {
 	display: block;
 	margin-top: 0.3em;
 	font-size: 0.85em;
 	font-weight: 600;
 }
 
-.bmd-upcoming .bmd-date {
+.bmd-wrapper .bmd-upcoming .bmd-date {
 	background: var(--bmd-accent);
 	color: #ffffff;
 }
 
-.bmd-status-cancelled .bmd-date {
+.bmd-wrapper .bmd-status-cancelled .bmd-date {
 	background: var(--bmd-muted);
 	color: #ffffff;
 }
 
-/* Text */
-.bmd-card-body {
+.bmd-wrapper .bmd-doc-icon svg {
+	display: block;
+	width: 1.9em;
+	height: 1.9em;
+	fill: currentColor;
+	opacity: 0.95;
+}
+
+/* Text block */
+.bmd-wrapper .bmd-card-body {
 	flex: 1 1 auto;
 	min-width: 0;
 	display: flex;
@@ -221,41 +307,80 @@ a.bmd-card:focus-visible {
 	gap: 0.25em;
 }
 
-.bmd-meeting-title {
+.bmd-wrapper .bmd-meeting-title,
+.bmd-wrapper .bmd-doc-title {
 	display: block;
 	color: var(--bmd-navy);
 	font-size: 1.15em;
 	font-weight: 800;
 	line-height: 1.25;
 	letter-spacing: -0.01em;
+	text-decoration: none;
 	overflow-wrap: anywhere;
 }
 
-.bmd-meeting-subtitle {
+.bmd-wrapper .bmd-doc-title {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.bmd-wrapper .bmd-meeting-subtitle,
+.bmd-wrapper .bmd-doc-subtitle {
 	display: block;
 	color: var(--bmd-subtext);
 	font-size: 0.95em;
+	font-weight: 400;
 	line-height: 1.4;
+	text-decoration: none;
 }
 
-.bmd-status-cancelled .bmd-meeting-title {
+.bmd-wrapper .bmd-status-cancelled .bmd-meeting-title {
 	opacity: 0.75;
 }
 
-/* Multiple documents: pill links under the title */
-.bmd-documents {
+/* Round "open" button on document rows */
+.bmd-wrapper .bmd-doc-ext {
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.5em;
+	height: 2.5em;
+	margin-left: auto;
+	border-radius: 50%;
+	background: rgba(20, 54, 77, 0.08);
+	color: var(--bmd-navy);
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.bmd-wrapper .bmd-doc-ext svg {
+	display: block;
+	width: 1.1em;
+	height: 1.1em;
+	fill: currentColor;
+}
+
+.bmd-wrapper a.bmd-doc-card:hover .bmd-doc-ext,
+.bmd-wrapper a.bmd-doc-card:focus-visible .bmd-doc-ext {
+	background: var(--bmd-navy);
+	color: var(--bmd-badge-text);
+}
+
+/* Multiple meeting documents: pill links under the title */
+.bmd-wrapper .bmd-documents {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0.5em;
 	margin-top: 0.2em;
 }
 
-.bmd-document {
+.bmd-wrapper .bmd-document {
 	margin: 0;
 	padding: 0;
+	list-style: none;
 }
 
-.bmd-document-link {
+.bmd-wrapper a.bmd-document-link {
 	display: inline-block;
 	padding: 0.3em 0.85em;
 	border-radius: 999px;
@@ -268,231 +393,22 @@ a.bmd-card:focus-visible {
 	transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.bmd-document-link:hover,
-.bmd-document-link:focus-visible {
+.bmd-wrapper a.bmd-document-link:hover,
+.bmd-wrapper a.bmd-document-link:focus-visible {
 	background: var(--bmd-navy);
 	color: var(--bmd-badge-text);
 	text-decoration: none;
 }
 
-.bmd-document-link:focus-visible {
+.bmd-wrapper a.bmd-document-link:focus-visible {
 	outline: 2px solid var(--bmd-navy);
 	outline-offset: 2px;
 }
 
 /* ------------------------------------------------------------------ */
-/* Document Sections ([board_documents])                                */
-/* Outlined panel per section, chevron toggle, one white row per PDF    */
-/* ------------------------------------------------------------------ */
-.bmd-docs {
-	--bmd-doc-text: #1f2328;
-	--bmd-doc-border: #d6dae0;
-	--bmd-doc-row-shadow: 0 2px 8px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.05);
-	--bmd-doc-row-shadow-hover: 0 6px 16px rgba(15, 23, 42, 0.12), 0 2px 4px rgba(15, 23, 42, 0.06);
-
-	color: var(--bmd-doc-text);
-}
-
-.bmd-section {
-	margin: 0 0 1.25em;
-	padding: 1em 1em 1.1em;
-	background: #ffffff;
-	border: 1px solid var(--bmd-doc-border);
-	border-radius: 12px;
-}
-
-.bmd-section-heading {
-	margin: 0;
-	padding: 0;
-	font-size: inherit;
-	line-height: inherit;
-}
-
-.bmd-section-header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	width: 100%;
-	margin: 0;
-	padding: 0.15em 0 0.35em;
-	background: transparent;
-	border: 0;
-	border-radius: 0;
-	color: var(--bmd-doc-text);
-	font: inherit;
-	font-size: 1.45em;
-	font-weight: 700;
-	letter-spacing: -0.01em;
-	line-height: 1.25;
-	text-align: left;
-	cursor: pointer;
-	-webkit-appearance: none;
-	appearance: none;
-}
-
-.bmd-section-header:focus {
-	outline: none;
-}
-
-.bmd-section-header:focus-visible {
-	outline: 2px solid var(--bmd-doc-text);
-	outline-offset: 4px;
-	border-radius: 4px;
-}
-
-.bmd-section-title {
-	flex: 1 1 auto;
-}
-
-.bmd-chevron {
-	flex: 0 0 auto;
-	display: inline-flex;
-	margin-left: 1em;
-	font-size: 0.75em;
-	line-height: 1;
-	transform: rotate(0deg);
-	transition: transform 0.2s ease;
-}
-
-.bmd-chevron svg {
-	display: block;
-	width: 1em;
-	height: 1em;
-}
-
-.bmd-section.bmd-open .bmd-chevron {
-	transform: rotate(180deg);
-}
-
-.bmd-section-content {
-	padding-top: 0.75em;
-}
-
-.bmd-section-content[hidden] {
-	display: none;
-}
-
-.bmd-doc-list {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-.bmd-doc-item {
-	margin: 0 0 0.6em;
-	padding: 0;
-}
-
-.bmd-doc-item:last-child {
-	margin-bottom: 0;
-}
-
-.bmd-doc-card {
-	display: flex;
-	align-items: center;
-	gap: 0.75em;
-	padding: 0.9em 1.5em;
-	background: #ffffff;
-	border-radius: 8px;
-	box-shadow: var(--bmd-doc-row-shadow);
-	color: var(--bmd-doc-text);
-	font-weight: 700;
-	font-size: 0.95em;
-	line-height: 1.35;
-	text-decoration: none;
-	transition: box-shadow 0.15s ease, transform 0.15s ease;
-}
-
-.bmd-doc-card:hover,
-.bmd-doc-card:focus-visible {
-	box-shadow: var(--bmd-doc-row-shadow-hover);
-	transform: translateY(-1px);
-	color: var(--bmd-doc-text);
-	text-decoration: none;
-}
-
-.bmd-doc-card:focus {
-	outline: none;
-}
-
-.bmd-doc-card:focus-visible {
-	outline: 2px solid var(--bmd-doc-text);
-	outline-offset: 2px;
-}
-
-.bmd-doc-icon,
-.bmd-doc-ext {
-	flex: 0 0 auto;
-	display: inline-flex;
-	line-height: 1;
-}
-
-.bmd-doc-icon svg,
-.bmd-doc-ext svg {
-	display: block;
-}
-
-.bmd-doc-icon {
-	font-size: 0.95em;
-	opacity: 0.8;
-}
-
-.bmd-doc-title {
-	flex: 1 1 auto;
-	min-width: 0;
-	overflow-wrap: anywhere;
-}
-
-.bmd-doc-ext {
-	margin-left: auto;
-	font-size: 1.25em;
-}
-
-@media (max-width: 600px) {
-	.bmd-section {
-		padding: 0.85em 0.75em 0.9em;
-	}
-
-	.bmd-section-header {
-		font-size: 1.25em;
-	}
-
-	.bmd-doc-card {
-		padding: 0.8em 1em;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.bmd-chevron,
-	.bmd-doc-card {
-		transition: none;
-	}
-
-	.bmd-doc-card:hover,
-	.bmd-doc-card:focus-visible {
-		transform: none;
-	}
-}
-
-@media print {
-	.bmd-section-content[hidden] {
-		display: block;
-	}
-
-	.bmd-chevron {
-		display: none;
-	}
-
-	.bmd-doc-card {
-		box-shadow: none;
-		border: 1px solid #ccc;
-	}
-}
-
-/* ------------------------------------------------------------------ */
 /* States                                                               */
 /* ------------------------------------------------------------------ */
-.bmd-empty {
+.bmd-wrapper .bmd-empty {
 	font-style: italic;
 	opacity: 0.8;
 }
@@ -504,7 +420,7 @@ a.bmd-card:focus-visible {
 }
 
 /* Visually hidden, screen-reader only (theme-independent) */
-.bmd-sr-only {
+.bmd-wrapper .bmd-sr-only {
 	position: absolute !important;
 	width: 1px;
 	height: 1px;
@@ -520,49 +436,67 @@ a.bmd-card:focus-visible {
 /* Responsive                                                           */
 /* ------------------------------------------------------------------ */
 @media (max-width: 600px) {
-	.bmd-card {
+	.bmd-wrapper .bmd-card,
+	.bmd-wrapper .bmd-doc-card {
 		gap: 0.85em;
 		padding: 0.85em 1em;
 		border-radius: 14px;
 	}
 
-	.bmd-date {
+	.bmd-wrapper .bmd-date,
+	.bmd-wrapper .bmd-doc-icon {
 		width: 3.8em;
 		min-height: 3.8em;
 	}
 
-	.bmd-meeting-title {
+	.bmd-wrapper .bmd-meeting-title,
+	.bmd-wrapper .bmd-doc-title {
 		font-size: 1.05em;
 	}
 
-	.bmd-year-header {
+	.bmd-wrapper button.bmd-year-header,
+	.bmd-wrapper button.bmd-section-header {
 		font-size: 1.3em;
+	}
+
+	.bmd-wrapper .bmd-doc-ext {
+		width: 2.2em;
+		height: 2.2em;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.bmd-card,
-	.bmd-toggle,
-	.bmd-document-link {
+	.bmd-wrapper .bmd-card,
+	.bmd-wrapper .bmd-doc-card,
+	.bmd-wrapper .bmd-toggle,
+	.bmd-wrapper .bmd-chevron,
+	.bmd-wrapper .bmd-doc-ext,
+	.bmd-wrapper a.bmd-document-link {
 		transition: none;
 	}
 
-	a.bmd-card:hover,
-	a.bmd-card:focus-visible {
+	.bmd-wrapper a.bmd-card:hover,
+	.bmd-wrapper a.bmd-card:focus-visible,
+	.bmd-wrapper a.bmd-doc-card:hover,
+	.bmd-wrapper a.bmd-doc-card:focus-visible {
 		transform: none;
 	}
 }
 
 @media print {
-	.bmd-year-content[hidden] {
+	.bmd-wrapper .bmd-year-content[hidden],
+	.bmd-wrapper .bmd-section-content[hidden] {
 		display: block;
 	}
 
-	.bmd-toggle {
+	.bmd-wrapper .bmd-toggle,
+	.bmd-wrapper .bmd-chevron,
+	.bmd-wrapper .bmd-doc-ext {
 		display: none;
 	}
 
-	.bmd-card {
+	.bmd-wrapper .bmd-card,
+	.bmd-wrapper .bmd-doc-card {
 		box-shadow: none;
 		border: 1px solid #ccc;
 	}

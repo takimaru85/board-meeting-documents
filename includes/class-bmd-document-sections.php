@@ -385,8 +385,11 @@ class BMD_Document_Sections {
 				$html .= '<li class="bmd-doc-item">'
 					. '<a class="bmd-doc-card" href="' . esc_url( $doc['url'] ) . '" target="_blank" rel="noopener">'
 					. '<span class="bmd-doc-icon" aria-hidden="true">' . self::icon_pdf() . '</span>'
+					. '<span class="bmd-card-body">'
 					. '<span class="bmd-doc-title">' . esc_html( $doc['label'] ) . '</span>'
-					. '<span class="bmd-sr-only"> ' . esc_html__( '(PDF, opens in a new tab)', 'board-meeting-documents' ) . '</span>'
+					. '<span class="bmd-doc-subtitle">' . esc_html( $doc['meta'] ) . '</span>'
+					. '<span class="bmd-sr-only"> ' . esc_html__( '(opens in a new tab)', 'board-meeting-documents' ) . '</span>'
+					. '</span>'
 					. '<span class="bmd-doc-ext" aria-hidden="true">' . self::icon_external() . '</span>'
 					. '</a></li>';
 			}
@@ -476,9 +479,19 @@ class BMD_Document_Sections {
 				if ( '' === $label ) {
 					$label = wp_basename( $url );
 				}
+
+				// Subtitle: "PDF · 1.2 MB". File size comes from attachment metadata
+				// (stored by WordPress on upload), so no filesystem access is needed.
+				$meta_parts = array( __( 'PDF', 'board-meeting-documents' ) );
+				$attachment_meta = wp_get_attachment_metadata( $doc['attachment_id'] );
+				if ( is_array( $attachment_meta ) && ! empty( $attachment_meta['filesize'] ) ) {
+					$meta_parts[] = size_format( (int) $attachment_meta['filesize'], 1 );
+				}
+
 				$resolved[] = array(
 					'url'   => $url,
 					'label' => $label,
+					'meta'  => implode( ' · ', $meta_parts ),
 				);
 			}
 
