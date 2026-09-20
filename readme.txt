@@ -95,7 +95,7 @@ No. Meetings and their meta are kept so nothing is lost by accident. Delete the 
 
 = 1.1.0 =
 * Post type slug renamed to `bmd_meeting` (was `board_meeting`) to avoid collisions with other board-meeting plugins; existing meetings are migrated automatically on first load.
-* Shortcodes renamed to `[bmd_meetings]` and `[bmd_documents]`; the old `[board_meetings]` / `[board_documents]` tags keep working as aliases unless another plugin claims them.
+* Shortcodes renamed to `[bmd_meetings]` and `[bmd_documents]`. The old `[board_meetings]` / `[board_documents]` tags are no longer registered (they belong to other plugins) — update your pages.
 * Admin menu renamed to "Board Documents".
 * Added Document Sections (Annual Reports, Audit Reports, Budget…) with `[bmd_documents]`.
 * Added Duplicate row action, row reordering, Instructions page.

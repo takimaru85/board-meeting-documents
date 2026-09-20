@@ -9,7 +9,7 @@
  * ordered by the "Order" field (menu_order), then title.
  *
  * Frontend:
- *   [bmd_documents]                           all sections (alias: [board_documents]), each an accordion
+ *   [bmd_documents]                           all sections, each an accordion
  *   [bmd_documents section="annual-reports"] one section (slug or ID)
  *   [bmd_documents expand="first"]          all | first | none (default all)
  *
@@ -27,8 +27,7 @@ class BMD_Document_Sections {
 
 	const POST_TYPE    = 'bmd_doc_section';
 	const META_DOCS    = '_bmd_section_documents';
-	const SHORTCODE       = 'bmd_documents';
-	const SHORTCODE_ALIAS = 'board_documents';
+	const SHORTCODE    = 'bmd_documents';
 	const FIELD_NAME   = 'bmd_section_documents';
 	const NONCE_ACTION = 'bmd_save_section';
 	const NONCE_NAME   = 'bmd_section_nonce';
@@ -121,11 +120,6 @@ class BMD_Document_Sections {
 	 */
 	public function register_shortcode(): void {
 		add_shortcode( self::SHORTCODE, array( $this, 'render' ) );
-
-		// Legacy alias: only if nothing else has claimed the generic tag.
-		if ( ! shortcode_exists( self::SHORTCODE_ALIAS ) ) {
-			add_shortcode( self::SHORTCODE_ALIAS, array( $this, 'render' ) );
-		}
 	}
 
 	/**

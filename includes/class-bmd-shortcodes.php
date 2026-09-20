@@ -4,7 +4,7 @@
  * accordion markup.
  *
  * Usage:
- *   [bmd_meetings type="agenda"]                 (alias: [board_meetings])
+ *   [bmd_meetings type="agenda"]
  *   [bmd_meetings type="minutes" year="2026" order="asc"]
  *
  * @package BoardMeetingDocuments
@@ -20,11 +20,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 class BMD_Shortcodes {
 
 	/**
-	 * Primary shortcode tag (unique prefix, cannot clash with other plugins)
-	 * and the legacy alias kept for pages built with earlier versions.
+	 * Shortcode tag. Prefixed so it cannot clash with other plugins
+	 * (a generic [board_meetings] tag is deliberately NOT registered).
 	 */
-	const SHORTCODE       = 'bmd_meetings';
-	const SHORTCODE_ALIAS = 'board_meetings';
+	const SHORTCODE = 'bmd_meetings';
 
 	/**
 	 * Counts rendered instances so every accordion on a page gets unique IDs
@@ -49,11 +48,6 @@ class BMD_Shortcodes {
 	 */
 	public function register_shortcode(): void {
 		add_shortcode( self::SHORTCODE, array( $this, 'render' ) );
-
-		// Legacy alias: only if nothing else has claimed the generic tag.
-		if ( ! shortcode_exists( self::SHORTCODE_ALIAS ) ) {
-			add_shortcode( self::SHORTCODE_ALIAS, array( $this, 'render' ) );
-		}
 	}
 
 	/**
@@ -63,7 +57,7 @@ class BMD_Shortcodes {
 	 * @return bool
 	 */
 	public static function content_has_shortcodes( string $content ): bool {
-		foreach ( array( self::SHORTCODE, self::SHORTCODE_ALIAS, BMD_Document_Sections::SHORTCODE, BMD_Document_Sections::SHORTCODE_ALIAS ) as $tag ) {
+		foreach ( array( self::SHORTCODE, BMD_Document_Sections::SHORTCODE ) as $tag ) {
 			if ( has_shortcode( $content, $tag ) ) {
 				return true;
 			}
