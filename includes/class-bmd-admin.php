@@ -218,7 +218,7 @@ class BMD_Admin {
 	}
 
 	/**
-	 * Adds "Instructions" under the Board Meetings menu.
+	 * Adds "Instructions" under the Board Documents menu.
 	 *
 	 * @return void
 	 */
@@ -277,7 +277,7 @@ class BMD_Admin {
 
 			<h2><?php esc_html_e( '2. Adding a meeting', 'board-meeting-documents' ); ?></h2>
 			<ol>
-				<li><?php esc_html_e( 'Go to Board Meetings → Add New.', 'board-meeting-documents' ); ?></li>
+				<li><?php esc_html_e( 'Go to Board Documents → Meetings (Agendas & Minutes) → Add New.', 'board-meeting-documents' ); ?></li>
 				<li><?php esc_html_e( 'Enter the Meeting Date (required) and choose the Meeting Status.', 'board-meeting-documents' ); ?></li>
 				<li><?php esc_html_e( 'Under Agenda Documents click "Select PDF" to upload or choose a PDF from the Media Library. Add a label if you need one, e.g. "Agenda (Amended)". Use "Add Agenda Document" for more files.', 'board-meeting-documents' ); ?></li>
 				<li><?php esc_html_e( 'Do the same under Minutes Documents (this can be done later, after the meeting).', 'board-meeting-documents' ); ?></li>
@@ -296,7 +296,7 @@ class BMD_Admin {
 			<h2><?php esc_html_e( '4. Document Sections (Annual Reports, Audit Reports, Budget…)', 'board-meeting-documents' ); ?></h2>
 			<p><?php esc_html_e( 'For PDF lists that are not tied to a meeting, use Document Sections. Each section is a heading with its own collapsible list of files.', 'board-meeting-documents' ); ?></p>
 			<ol>
-				<li><?php esc_html_e( 'Go to Board Meetings → Document Sections → Add New.', 'board-meeting-documents' ); ?></li>
+				<li><?php esc_html_e( 'Go to Board Documents → Document Sections → Add New.', 'board-meeting-documents' ); ?></li>
 				<li><?php esc_html_e( 'Enter the section title (e.g. "Annual Reports").', 'board-meeting-documents' ); ?></li>
 				<li><?php esc_html_e( 'Add one row per PDF: select the file and type the title to show (e.g. "2025 Annual Report"). Use the arrows to reorder rows.', 'board-meeting-documents' ); ?></li>
 				<li><?php esc_html_e( 'Optionally set "Order" in the Attributes box to control the order of sections on the page (lower numbers first).', 'board-meeting-documents' ); ?></li>

@@ -1,5 +1,5 @@
 === Board Meeting Documents ===
-Contributors: boardmeetingdocuments
+Contributors: graphiczen
 Tags: board, meetings, agenda, minutes, pdf, shortcode
 Requires at least: 6.0
 Tested up to: 6.8
@@ -8,7 +8,7 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Manage Board Meetings with Agenda and Minutes PDFs and list them on the frontend, grouped by year in an accessible accordion, using shortcodes.
+Manage Board Meetings with Agenda and Minutes PDFs, plus a Document Library of grouped PDF sections (Annual Reports, Audit Reports, Budgets and more), all displayed on the frontend with shortcodes in accessible accordions.
 
 == Description ==
 
@@ -25,7 +25,7 @@ Meetings are grouped by year in an accessible accordion (button + aria-expanded 
 
 = Document Sections =
 
-For PDF lists that are not tied to a meeting (Annual Reports, Audit Reports, Budget…) create **Document Sections** under Board Meetings. Each section is a heading with its own collapsible list of PDFs (title + external-link icon per row). Display them with:
+For PDF lists that are not tied to a meeting (Annual Reports, Audit Reports, Budget…) create **Document Sections** under Board Documents. Each section is a heading with its own collapsible list of PDFs (title + external-link icon per row). Display them with:
 
 * `[board_documents]` – all published sections, ordered by their "Order" field then title
 * `[board_documents section="annual-reports"]` – one section by slug or ID
@@ -35,7 +35,7 @@ Data: post type `bmd_doc_section`, meta `_bmd_section_documents` (same `[ attach
 
 = Where to find instructions inside WordPress =
 
-Board Meetings → Instructions shows the shortcodes, all attributes and the editing workflow. The same shortcodes are also listed in the "Shortcodes" box on every Board Meeting edit screen.
+Board Documents → Instructions shows the shortcodes, all attributes and the editing workflow. The same shortcodes are also listed in the "Shortcodes" box on every Board Meeting edit screen.
 
 = Shortcode attributes =
 
@@ -71,7 +71,7 @@ When a meeting has no documents of a type, that meta key is deleted (not stored 
 2. Activate the plugin.
 3. Create a page called "Agendas" containing `[board_meetings type="agenda"]`.
 4. Create a page called "Minutes" containing `[board_meetings type="minutes"]`.
-5. Go to Board Meetings → Add New, enter the meeting date, choose a status, add PDFs, and publish.
+5. Go to Board Documents → Meetings (Agendas & Minutes) → Add New, enter the meeting date, choose a status, add PDFs, and publish.
 
 == Frequently Asked Questions ==
 

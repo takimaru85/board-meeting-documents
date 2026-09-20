@@ -1,12 +1,13 @@
 <?php
 /**
  * Plugin Name:       Board Meeting Documents
- * Plugin URI:        https://example.com/board-meeting-documents
- * Description:       Manage Board Meetings with Agenda and Minutes PDF documents and display them on the frontend, grouped by year, using shortcodes.
+ * Plugin URI:        https://ibgolden.com
+ * Description:       Manage Board Meetings with Agenda and Minutes PDFs, plus a Document Library of grouped PDF sections (Annual Reports, Audit Reports, Budgets and more). Everything is displayed on the frontend with shortcodes in accessible, year-grouped accordions.
  * Version:           1.0.0
  * Requires at least: 6.0
  * Requires PHP:      8.0
- * Author:            Board Meeting Documents
+ * Author:            GraphicZen
+ * Author URI:        https://ibgolden.com
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       board-meeting-documents
