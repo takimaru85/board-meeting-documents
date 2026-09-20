@@ -1,0 +1,203 @@
+/**
+ * Board Meeting Documents – admin styles.
+ * Loaded only on the Board Meeting edit screen.
+ */
+
+/* Meeting Details */
+.bmd-form-table th {
+	width: 160px;
+}
+
+.bmd-required {
+	color: #d63638;
+}
+
+.bmd-date-input {
+	min-width: 180px;
+}
+
+.bmd-field-error {
+	color: #d63638;
+	font-weight: 600;
+	margin: 6px 0 0;
+}
+
+.bmd-input-error {
+	border-color: #d63638 !important;
+	box-shadow: 0 0 0 1px #d63638;
+}
+
+/* Document tables */
+.bmd-doc-table {
+	margin-top: 4px;
+}
+
+.bmd-doc-table th,
+.bmd-doc-table td {
+	vertical-align: middle;
+}
+
+.bmd-doc-table th.bmd-doc-file,
+.bmd-doc-table td.bmd-doc-file {
+	width: 55%;
+}
+
+.bmd-doc-table th.bmd-doc-actions,
+.bmd-doc-table td.bmd-doc-actions {
+	width: 80px;
+	text-align: right;
+}
+
+.bmd-doc-filename {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	margin-right: 10px;
+	max-width: calc(100% - 120px);
+	vertical-align: middle;
+	overflow-wrap: anywhere;
+}
+
+.bmd-doc-filename .dashicons {
+	color: #b32d2e;
+	flex: 0 0 auto;
+}
+
+.bmd-doc-placeholder {
+	color: #757575;
+	font-style: italic;
+	margin-right: 10px;
+	vertical-align: middle;
+}
+
+/* Show either the filename or the placeholder, never both. */
+.bmd-doc-row:not(.has-file) .bmd-doc-filename,
+.bmd-doc-row.has-file .bmd-doc-placeholder {
+	display: none;
+}
+
+.bmd-doc-label .bmd-doc-label-input {
+	width: 100%;
+	max-width: 100%;
+}
+
+.bmd-remove-row {
+	white-space: nowrap;
+}
+
+/* Empty state + add button */
+.bmd-empty-msg {
+	color: #757575;
+	font-style: italic;
+	margin: 8px 0;
+}
+
+.bmd-documents.has-rows .bmd-empty-msg {
+	display: none;
+}
+
+.bmd-actions {
+	margin: 12px 0 0;
+}
+
+.bmd-add-row .dashicons {
+	font-size: 16px;
+	line-height: 28px;
+	height: 28px;
+	width: 16px;
+	vertical-align: middle;
+	margin-right: 2px;
+}
+
+/* List table */
+.bmd-col-missing {
+	color: #d63638;
+	font-style: italic;
+}
+
+/* Small screens */
+@media screen and (max-width: 782px) {
+	.bmd-form-table th {
+		width: auto;
+	}
+
+	.bmd-doc-table th.bmd-doc-file,
+	.bmd-doc-table td.bmd-doc-file {
+		width: auto;
+	}
+
+	.bmd-doc-filename {
+		display: flex;
+		max-width: 100%;
+		margin: 0 0 6px;
+	}
+
+	.bmd-doc-placeholder {
+		display: block;
+		margin: 0 0 6px;
+	}
+}
+
+/* Shortcode reference (sidebar box + Instructions page) */
+.bmd-shortcode {
+	display: inline-block;
+	padding: 4px 8px;
+	font-size: 13px;
+	user-select: all;
+	-webkit-user-select: all;
+}
+
+.bmd-instructions .bmd-shortcode-table {
+	max-width: 900px;
+	margin: 12px 0 20px;
+}
+
+.bmd-instructions .bmd-shortcode-table td:first-child {
+	width: 45%;
+	white-space: nowrap;
+}
+
+.bmd-instructions h2 {
+	margin-top: 1.6em;
+}
+
+.bmd-instructions ol,
+.bmd-instructions ul.ul-disc {
+	max-width: 900px;
+	margin-left: 1.5em;
+}
+
+.bmd-instructions li {
+	margin-bottom: 6px;
+}
+
+/* Row reorder buttons */
+.bmd-doc-table th.bmd-doc-actions,
+.bmd-doc-table td.bmd-doc-actions {
+	width: 150px;
+	white-space: nowrap;
+}
+
+.bmd-doc-move {
+	display: inline-flex;
+	gap: 2px;
+	margin-right: 8px;
+	vertical-align: middle;
+}
+
+.bmd-doc-move .button-link {
+	padding: 2px;
+	color: #50575e;
+	line-height: 1;
+}
+
+.bmd-doc-move .button-link:hover,
+.bmd-doc-move .button-link:focus {
+	color: #135e96;
+}
+
+.bmd-doc-move .dashicons {
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
+}

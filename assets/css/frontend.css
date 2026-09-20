@@ -1,0 +1,569 @@
+/**
+ * Board Meeting Documents – frontend styles.
+ *
+ * Card list: white rounded cards with a soft shadow, a day/month badge on the
+ * left, bold title and muted subtitle. Colours are exposed as custom
+ * properties on .bmd-wrapper so a theme can retune them in one rule:
+ *
+ *   .bmd-wrapper { --bmd-navy: #123a4f; --bmd-accent: #e8735a; }
+ */
+
+.bmd-wrapper {
+	/* Palette */
+	--bmd-navy: #14364d;          /* titles, past-meeting badge */
+	--bmd-accent: #e8735a;        /* upcoming-meeting badge */
+	--bmd-muted: #6b7280;         /* cancelled badge */
+	--bmd-badge-text: #f4f0b3;    /* day/month text on the navy badge */
+	--bmd-card-bg: #ffffff;
+	--bmd-text: #14364d;
+	--bmd-subtext: #3f4a55;
+	--bmd-shadow: 0 6px 18px rgba(20, 54, 77, 0.08), 0 1px 3px rgba(20, 54, 77, 0.06);
+	--bmd-shadow-hover: 0 12px 28px rgba(20, 54, 77, 0.14), 0 2px 6px rgba(20, 54, 77, 0.08);
+	--bmd-radius: 16px;
+	--bmd-badge-radius: 12px;
+
+	margin: 0 0 2em;
+	box-sizing: border-box;
+	color: var(--bmd-text);
+}
+
+.bmd-wrapper *,
+.bmd-wrapper *::before,
+.bmd-wrapper *::after {
+	box-sizing: inherit;
+}
+
+.bmd-heading {
+	margin: 0 0 0.75em;
+	color: var(--bmd-navy);
+	font-weight: 800;
+	letter-spacing: -0.01em;
+}
+
+/* ------------------------------------------------------------------ */
+/* Year accordion header – reads as a section heading, not a box       */
+/* ------------------------------------------------------------------ */
+.bmd-year {
+	margin: 0 0 1.5em;
+}
+
+.bmd-year-heading {
+	margin: 0 0 0.75em;
+	padding: 0;
+	font-size: inherit;
+	line-height: inherit;
+}
+
+.bmd-year-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	margin: 0;
+	padding: 0.4em 0;
+	background: transparent;
+	border: 0;
+	border-bottom: 2px solid rgba(20, 54, 77, 0.12);
+	border-radius: 0;
+	color: var(--bmd-navy);
+	font: inherit;
+	font-size: 1.5em;
+	font-weight: 800;
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	text-align: left;
+	text-decoration: none;
+	cursor: pointer;
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.bmd-year-header:hover .bmd-toggle,
+.bmd-year-header:focus-visible .bmd-toggle {
+	background: var(--bmd-navy);
+	color: var(--bmd-badge-text);
+}
+
+.bmd-year-header:focus {
+	outline: none;
+}
+
+.bmd-year-header:focus-visible {
+	outline: 2px solid var(--bmd-navy);
+	outline-offset: 4px;
+}
+
+.bmd-year-label {
+	flex: 1 1 auto;
+}
+
+.bmd-toggle {
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.5em;
+	height: 1.5em;
+	margin-left: 1em;
+	border-radius: 50%;
+	background: rgba(20, 54, 77, 0.08);
+	font-size: 0.8em;
+	font-weight: 500;
+	line-height: 1;
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.bmd-year-content {
+	padding: 0.25em 0 0;
+}
+
+.bmd-year-content[hidden] {
+	display: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Cards                                                                */
+/* ------------------------------------------------------------------ */
+.bmd-meetings,
+.bmd-documents {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.bmd-meeting {
+	margin: 0 0 1em;
+	padding: 0;
+}
+
+.bmd-meeting:last-child {
+	margin-bottom: 0;
+}
+
+.bmd-card {
+	display: flex;
+	align-items: center;
+	gap: 1.1em;
+	padding: 1em 1.25em;
+	background: var(--bmd-card-bg);
+	border-radius: var(--bmd-radius);
+	box-shadow: var(--bmd-shadow);
+	color: inherit;
+	text-decoration: none;
+	transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+/* Whole-card link */
+a.bmd-card:hover,
+a.bmd-card:focus-visible {
+	transform: translateY(-2px);
+	box-shadow: var(--bmd-shadow-hover);
+	text-decoration: none;
+	color: inherit;
+}
+
+a.bmd-card:focus {
+	outline: none;
+}
+
+a.bmd-card:focus-visible {
+	outline: 2px solid var(--bmd-navy);
+	outline-offset: 3px;
+}
+
+/* Date badge */
+.bmd-date {
+	flex: 0 0 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 4.4em;
+	min-height: 4.4em;
+	padding: 0.45em 0.3em;
+	border-radius: var(--bmd-badge-radius);
+	background: var(--bmd-navy);
+	color: var(--bmd-badge-text);
+	line-height: 1;
+	text-align: center;
+}
+
+.bmd-date-day {
+	display: block;
+	font-size: 1.5em;
+	font-weight: 800;
+	letter-spacing: -0.02em;
+}
+
+.bmd-date-month {
+	display: block;
+	margin-top: 0.3em;
+	font-size: 0.85em;
+	font-weight: 600;
+}
+
+.bmd-upcoming .bmd-date {
+	background: var(--bmd-accent);
+	color: #ffffff;
+}
+
+.bmd-status-cancelled .bmd-date {
+	background: var(--bmd-muted);
+	color: #ffffff;
+}
+
+/* Text */
+.bmd-card-body {
+	flex: 1 1 auto;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25em;
+}
+
+.bmd-meeting-title {
+	display: block;
+	color: var(--bmd-navy);
+	font-size: 1.15em;
+	font-weight: 800;
+	line-height: 1.25;
+	letter-spacing: -0.01em;
+	overflow-wrap: anywhere;
+}
+
+.bmd-meeting-subtitle {
+	display: block;
+	color: var(--bmd-subtext);
+	font-size: 0.95em;
+	line-height: 1.4;
+}
+
+.bmd-status-cancelled .bmd-meeting-title {
+	opacity: 0.75;
+}
+
+/* Multiple documents: pill links under the title */
+.bmd-documents {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	margin-top: 0.2em;
+}
+
+.bmd-document {
+	margin: 0;
+	padding: 0;
+}
+
+.bmd-document-link {
+	display: inline-block;
+	padding: 0.3em 0.85em;
+	border-radius: 999px;
+	background: rgba(20, 54, 77, 0.08);
+	color: var(--bmd-navy);
+	font-size: 0.9em;
+	font-weight: 600;
+	line-height: 1.4;
+	text-decoration: none;
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.bmd-document-link:hover,
+.bmd-document-link:focus-visible {
+	background: var(--bmd-navy);
+	color: var(--bmd-badge-text);
+	text-decoration: none;
+}
+
+.bmd-document-link:focus-visible {
+	outline: 2px solid var(--bmd-navy);
+	outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Document Sections ([board_documents])                                */
+/* Outlined panel per section, chevron toggle, one white row per PDF    */
+/* ------------------------------------------------------------------ */
+.bmd-docs {
+	--bmd-doc-text: #1f2328;
+	--bmd-doc-border: #d6dae0;
+	--bmd-doc-row-shadow: 0 2px 8px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.05);
+	--bmd-doc-row-shadow-hover: 0 6px 16px rgba(15, 23, 42, 0.12), 0 2px 4px rgba(15, 23, 42, 0.06);
+
+	color: var(--bmd-doc-text);
+}
+
+.bmd-section {
+	margin: 0 0 1.25em;
+	padding: 1em 1em 1.1em;
+	background: #ffffff;
+	border: 1px solid var(--bmd-doc-border);
+	border-radius: 12px;
+}
+
+.bmd-section-heading {
+	margin: 0;
+	padding: 0;
+	font-size: inherit;
+	line-height: inherit;
+}
+
+.bmd-section-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	margin: 0;
+	padding: 0.15em 0 0.35em;
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	color: var(--bmd-doc-text);
+	font: inherit;
+	font-size: 1.45em;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	line-height: 1.25;
+	text-align: left;
+	cursor: pointer;
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.bmd-section-header:focus {
+	outline: none;
+}
+
+.bmd-section-header:focus-visible {
+	outline: 2px solid var(--bmd-doc-text);
+	outline-offset: 4px;
+	border-radius: 4px;
+}
+
+.bmd-section-title {
+	flex: 1 1 auto;
+}
+
+.bmd-chevron {
+	flex: 0 0 auto;
+	display: inline-flex;
+	margin-left: 1em;
+	font-size: 0.75em;
+	line-height: 1;
+	transform: rotate(0deg);
+	transition: transform 0.2s ease;
+}
+
+.bmd-chevron svg {
+	display: block;
+	width: 1em;
+	height: 1em;
+}
+
+.bmd-section.bmd-open .bmd-chevron {
+	transform: rotate(180deg);
+}
+
+.bmd-section-content {
+	padding-top: 0.75em;
+}
+
+.bmd-section-content[hidden] {
+	display: none;
+}
+
+.bmd-doc-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.bmd-doc-item {
+	margin: 0 0 0.6em;
+	padding: 0;
+}
+
+.bmd-doc-item:last-child {
+	margin-bottom: 0;
+}
+
+.bmd-doc-card {
+	display: flex;
+	align-items: center;
+	gap: 0.75em;
+	padding: 0.9em 1.5em;
+	background: #ffffff;
+	border-radius: 8px;
+	box-shadow: var(--bmd-doc-row-shadow);
+	color: var(--bmd-doc-text);
+	font-weight: 700;
+	font-size: 0.95em;
+	line-height: 1.35;
+	text-decoration: none;
+	transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.bmd-doc-card:hover,
+.bmd-doc-card:focus-visible {
+	box-shadow: var(--bmd-doc-row-shadow-hover);
+	transform: translateY(-1px);
+	color: var(--bmd-doc-text);
+	text-decoration: none;
+}
+
+.bmd-doc-card:focus {
+	outline: none;
+}
+
+.bmd-doc-card:focus-visible {
+	outline: 2px solid var(--bmd-doc-text);
+	outline-offset: 2px;
+}
+
+.bmd-doc-icon,
+.bmd-doc-ext {
+	flex: 0 0 auto;
+	display: inline-flex;
+	line-height: 1;
+}
+
+.bmd-doc-icon svg,
+.bmd-doc-ext svg {
+	display: block;
+}
+
+.bmd-doc-icon {
+	font-size: 0.95em;
+	opacity: 0.8;
+}
+
+.bmd-doc-title {
+	flex: 1 1 auto;
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.bmd-doc-ext {
+	margin-left: auto;
+	font-size: 1.25em;
+}
+
+@media (max-width: 600px) {
+	.bmd-section {
+		padding: 0.85em 0.75em 0.9em;
+	}
+
+	.bmd-section-header {
+		font-size: 1.25em;
+	}
+
+	.bmd-doc-card {
+		padding: 0.8em 1em;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.bmd-chevron,
+	.bmd-doc-card {
+		transition: none;
+	}
+
+	.bmd-doc-card:hover,
+	.bmd-doc-card:focus-visible {
+		transform: none;
+	}
+}
+
+@media print {
+	.bmd-section-content[hidden] {
+		display: block;
+	}
+
+	.bmd-chevron {
+		display: none;
+	}
+
+	.bmd-doc-card {
+		box-shadow: none;
+		border: 1px solid #ccc;
+	}
+}
+
+/* ------------------------------------------------------------------ */
+/* States                                                               */
+/* ------------------------------------------------------------------ */
+.bmd-empty {
+	font-style: italic;
+	opacity: 0.8;
+}
+
+.bmd-error {
+	padding: 0.75em 1em;
+	border: 1px solid #d63638;
+	color: #d63638;
+}
+
+/* Visually hidden, screen-reader only (theme-independent) */
+.bmd-sr-only {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Responsive                                                           */
+/* ------------------------------------------------------------------ */
+@media (max-width: 600px) {
+	.bmd-card {
+		gap: 0.85em;
+		padding: 0.85em 1em;
+		border-radius: 14px;
+	}
+
+	.bmd-date {
+		width: 3.8em;
+		min-height: 3.8em;
+	}
+
+	.bmd-meeting-title {
+		font-size: 1.05em;
+	}
+
+	.bmd-year-header {
+		font-size: 1.3em;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.bmd-card,
+	.bmd-toggle,
+	.bmd-document-link {
+		transition: none;
+	}
+
+	a.bmd-card:hover,
+	a.bmd-card:focus-visible {
+		transform: none;
+	}
+}
+
+@media print {
+	.bmd-year-content[hidden] {
+		display: block;
+	}
+
+	.bmd-toggle {
+		display: none;
+	}
+
+	.bmd-card {
+		box-shadow: none;
+		border: 1px solid #ccc;
+	}
+}
