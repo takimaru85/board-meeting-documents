@@ -1,11 +1,11 @@
 <?php
 /**
- * The [board_meetings] shortcode: query, grouping by year, and accessible
+ * The [bmd_meetings] shortcode: query, grouping by year, and accessible
  * accordion markup.
  *
  * Usage:
- *   [board_meetings type="agenda"]
- *   [board_meetings type="minutes" year="2026" order="asc"]
+ *   [bmd_meetings type="agenda"]                 (alias: [board_meetings])
+ *   [bmd_meetings type="minutes" year="2026" order="asc"]
  *
  * @package BoardMeetingDocuments
  */
@@ -19,7 +19,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class BMD_Shortcodes {
 
-	const SHORTCODE = 'board_meetings';
+	/**
+	 * Primary shortcode tag (unique prefix, cannot clash with other plugins)
+	 * and the legacy alias kept for pages built with earlier versions.
+	 */
+	const SHORTCODE       = 'bmd_meetings';
+	const SHORTCODE_ALIAS = 'board_meetings';
 
 	/**
 	 * Counts rendered instances so every accordion on a page gets unique IDs
@@ -44,6 +49,26 @@ class BMD_Shortcodes {
 	 */
 	public function register_shortcode(): void {
 		add_shortcode( self::SHORTCODE, array( $this, 'render' ) );
+
+		// Legacy alias: only if nothing else has claimed the generic tag.
+		if ( ! shortcode_exists( self::SHORTCODE_ALIAS ) ) {
+			add_shortcode( self::SHORTCODE_ALIAS, array( $this, 'render' ) );
+		}
+	}
+
+	/**
+	 * Whether a block of content uses any of this plugin's shortcodes.
+	 *
+	 * @param string $content Post content.
+	 * @return bool
+	 */
+	public static function content_has_shortcodes( string $content ): bool {
+		foreach ( array( self::SHORTCODE, self::SHORTCODE_ALIAS, BMD_Document_Sections::SHORTCODE, BMD_Document_Sections::SHORTCODE_ALIAS ) as $tag ) {
+			if ( has_shortcode( $content, $tag ) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -74,7 +99,7 @@ class BMD_Shortcodes {
 
 		if ( is_singular() ) {
 			$post = get_post();
-			if ( $post instanceof WP_Post && ( has_shortcode( (string) $post->post_content, self::SHORTCODE ) || has_shortcode( (string) $post->post_content, BMD_Document_Sections::SHORTCODE ) ) ) {
+			if ( $post instanceof WP_Post && self::content_has_shortcodes( (string) $post->post_content ) ) {
 				$this->enqueue_assets();
 			}
 		}
@@ -115,7 +140,7 @@ class BMD_Shortcodes {
 		if ( ! isset( $types[ $type ] ) ) {
 			// Only editors see the mistake; visitors see nothing.
 			if ( current_user_can( 'edit_posts' ) ) {
-				return '<p class="bmd-error">' . esc_html__( '[board_meetings] error: type must be "agenda" or "minutes".', 'board-meeting-documents' ) . '</p>';
+				return '<p class="bmd-error">' . esc_html__( '[bmd_meetings] error: type must be "agenda" or "minutes".', 'board-meeting-documents' ) . '</p>';
 			}
 			return '';
 		}

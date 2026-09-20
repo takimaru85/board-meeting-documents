@@ -179,39 +179,39 @@ class BMD_Admin {
 	public static function get_shortcode_reference(): array {
 		return array(
 			array(
-				'code' => '[board_meetings type="agenda"]',
+				'code' => '[bmd_meetings type="agenda"]',
 				'desc' => __( 'Lists every published meeting that has at least one Agenda PDF. Put this on your Agendas page.', 'board-meeting-documents' ),
 			),
 			array(
-				'code' => '[board_meetings type="minutes"]',
+				'code' => '[bmd_meetings type="minutes"]',
 				'desc' => __( 'Lists every published meeting that has at least one Minutes PDF. Put this on your Minutes page.', 'board-meeting-documents' ),
 			),
 			array(
-				'code' => '[board_meetings type="agenda" year="2026"]',
+				'code' => '[bmd_meetings type="agenda" year="2026"]',
 				'desc' => __( 'Only meetings from one year.', 'board-meeting-documents' ),
 			),
 			array(
-				'code' => '[board_meetings type="minutes" order="asc"]',
+				'code' => '[bmd_meetings type="minutes" order="asc"]',
 				'desc' => __( 'Oldest first. Default is "desc" (newest first).', 'board-meeting-documents' ),
 			),
 			array(
-				'code' => '[board_meetings type="agenda" title="Agendas"]',
+				'code' => '[bmd_meetings type="agenda" title="Agendas"]',
 				'desc' => __( 'Prints a heading above the list.', 'board-meeting-documents' ),
 			),
 			array(
-				'code' => '[board_meetings type="agenda" expand="all"]',
+				'code' => '[bmd_meetings type="agenda" expand="all"]',
 				'desc' => __( 'Which years start open: "latest" (default), "all" or "none".', 'board-meeting-documents' ),
 			),
 			array(
-				'code' => '[board_documents]',
+				'code' => '[bmd_documents]',
 				'desc' => __( 'All Document Sections (e.g. Annual Reports, Audit Reports, Budget), each as a collapsible list of PDFs.', 'board-meeting-documents' ),
 			),
 			array(
-				'code' => '[board_documents section="annual-reports"]',
+				'code' => '[bmd_documents section="annual-reports"]',
 				'desc' => __( 'Only one Document Section, by its slug (or ID).', 'board-meeting-documents' ),
 			),
 			array(
-				'code' => '[board_documents expand="first"]',
+				'code' => '[bmd_documents expand="first"]',
 				'desc' => __( 'Which sections start open: "all" (default), "first" or "none".', 'board-meeting-documents' ),
 			),
 		);
@@ -300,7 +300,7 @@ class BMD_Admin {
 				<li><?php esc_html_e( 'Enter the section title (e.g. "Annual Reports").', 'board-meeting-documents' ); ?></li>
 				<li><?php esc_html_e( 'Add one row per PDF: select the file and type the title to show (e.g. "2025 Annual Report"). Use the arrows to reorder rows.', 'board-meeting-documents' ); ?></li>
 				<li><?php esc_html_e( 'Optionally set "Order" in the Attributes box to control the order of sections on the page (lower numbers first).', 'board-meeting-documents' ); ?></li>
-				<li><?php esc_html_e( 'Publish, then place [board_documents] on a page. Use section="slug" to show a single section.', 'board-meeting-documents' ); ?></li>
+				<li><?php esc_html_e( 'Publish, then place [bmd_documents] on a page. Use section="slug" to show a single section.', 'board-meeting-documents' ); ?></li>
 			</ol>
 		</div>
 		<?php
@@ -332,9 +332,9 @@ class BMD_Admin {
 		?>
 		<p><?php esc_html_e( 'Paste these into your pages:', 'board-meeting-documents' ); ?></p>
 		<p><strong><?php esc_html_e( 'Agendas page', 'board-meeting-documents' ); ?></strong><br />
-			<code class="bmd-shortcode">[board_meetings type="agenda"]</code></p>
+			<code class="bmd-shortcode">[bmd_meetings type="agenda"]</code></p>
 		<p><strong><?php esc_html_e( 'Minutes page', 'board-meeting-documents' ); ?></strong><br />
-			<code class="bmd-shortcode">[board_meetings type="minutes"]</code></p>
+			<code class="bmd-shortcode">[bmd_meetings type="minutes"]</code></p>
 		<p><a href="<?php echo esc_url( $instructions_url ); ?>"><?php esc_html_e( 'All options and instructions →', 'board-meeting-documents' ); ?></a></p>
 		<?php
 	}

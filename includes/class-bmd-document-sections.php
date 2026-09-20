@@ -9,9 +9,9 @@
  * ordered by the "Order" field (menu_order), then title.
  *
  * Frontend:
- *   [board_documents]                         all sections, each an accordion
- *   [board_documents section="annual-reports"] one section (slug or ID)
- *   [board_documents expand="first"]          all | first | none (default all)
+ *   [bmd_documents]                           all sections (alias: [board_documents]), each an accordion
+ *   [bmd_documents section="annual-reports"] one section (slug or ID)
+ *   [bmd_documents expand="first"]          all | first | none (default all)
  *
  * @package BoardMeetingDocuments
  */
@@ -27,7 +27,8 @@ class BMD_Document_Sections {
 
 	const POST_TYPE    = 'bmd_doc_section';
 	const META_DOCS    = '_bmd_section_documents';
-	const SHORTCODE    = 'board_documents';
+	const SHORTCODE       = 'bmd_documents';
+	const SHORTCODE_ALIAS = 'board_documents';
 	const FIELD_NAME   = 'bmd_section_documents';
 	const NONCE_ACTION = 'bmd_save_section';
 	const NONCE_NAME   = 'bmd_section_nonce';
@@ -120,6 +121,11 @@ class BMD_Document_Sections {
 	 */
 	public function register_shortcode(): void {
 		add_shortcode( self::SHORTCODE, array( $this, 'render' ) );
+
+		// Legacy alias: only if nothing else has claimed the generic tag.
+		if ( ! shortcode_exists( self::SHORTCODE_ALIAS ) ) {
+			add_shortcode( self::SHORTCODE_ALIAS, array( $this, 'render' ) );
+		}
 	}
 
 	/**
@@ -193,9 +199,9 @@ class BMD_Document_Sections {
 			)
 		);
 
-		$shortcode = $post->post_name ? '[board_documents section="' . $post->post_name . '"]' : '[board_documents]';
+		$shortcode = $post->post_name ? '[bmd_documents section="' . $post->post_name . '"]' : '[bmd_documents]';
 		echo '<p class="description">'
-			. esc_html__( 'Show all sections with', 'board-meeting-documents' ) . ' <code class="bmd-shortcode">[board_documents]</code> '
+			. esc_html__( 'Show all sections with', 'board-meeting-documents' ) . ' <code class="bmd-shortcode">[bmd_documents]</code> '
 			. esc_html__( 'or only this one with', 'board-meeting-documents' ) . ' <code class="bmd-shortcode">' . esc_html( $shortcode ) . '</code>'
 			. '</p>';
 	}
@@ -431,7 +437,7 @@ class BMD_Document_Sections {
 		}
 
 		/**
-		 * Filters the WP_Query arguments used by [board_documents].
+		 * Filters the WP_Query arguments used by [bmd_documents].
 		 *
 		 * @param array $args WP_Query args.
 		 */

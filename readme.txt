@@ -4,7 +4,7 @@ Tags: board, meetings, agenda, minutes, pdf, shortcode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 8.0
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,8 +16,8 @@ Board Meeting Documents adds a **Board Meetings** post type. Each meeting has a 
 
 Two shortcodes render the meetings on the frontend:
 
-* `[board_meetings type="agenda"]` – every published meeting that has at least one Agenda PDF
-* `[board_meetings type="minutes"]` – every published meeting that has at least one Minutes PDF
+* `[bmd_meetings type="agenda"]` – every published meeting that has at least one Agenda PDF
+* `[bmd_meetings type="minutes"]` – every published meeting that has at least one Minutes PDF
 
 Meetings are grouped by year in an accessible accordion (button + aria-expanded + aria-controls). The latest year is expanded, older years collapsed. Each meeting links straight to its PDF in a new tab; meetings with several PDFs show one link per document.
 
@@ -27,9 +27,9 @@ Meetings are grouped by year in an accessible accordion (button + aria-expanded 
 
 For PDF lists that are not tied to a meeting (Annual Reports, Audit Reports, Budget…) create **Document Sections** under Board Documents. Each section is a heading with its own collapsible list of PDFs (title + external-link icon per row). Display them with:
 
-* `[board_documents]` – all published sections, ordered by their "Order" field then title
-* `[board_documents section="annual-reports"]` – one section by slug or ID
-* `[board_documents expand="first"]` – `all` (default), `first` or `none`
+* `[bmd_documents]` – all published sections, ordered by their "Order" field then title
+* `[bmd_documents section="annual-reports"]` – one section by slug or ID
+* `[bmd_documents expand="first"]` – `all` (default), `first` or `none`
 
 Data: post type `bmd_doc_section`, meta `_bmd_section_documents` (same `[ attachment_id, label ]` array as meeting documents).
 
@@ -47,7 +47,7 @@ Board Documents → Instructions shows the shortcodes, all attributes and the ed
 
 = Data model (for migrations) =
 
-Post type: `board_meeting`
+Post type: `bmd_meeting` (was `board_meeting` before 1.1.0; posts are migrated automatically)
 
 * `_bmd_meeting_date` – string `YYYY-MM-DD`
 * `_bmd_meeting_status` – `normal` | `cancelled` | `special` | `joint`
@@ -69,8 +69,8 @@ When a meeting has no documents of a type, that meta key is deleted (not stored 
 
 1. Upload the `board-meeting-documents` folder to `/wp-content/plugins/`, or upload the ZIP through Plugins → Add New → Upload Plugin.
 2. Activate the plugin.
-3. Create a page called "Agendas" containing `[board_meetings type="agenda"]`.
-4. Create a page called "Minutes" containing `[board_meetings type="minutes"]`.
+3. Create a page called "Agendas" containing `[bmd_meetings type="agenda"]`.
+4. Create a page called "Minutes" containing `[bmd_meetings type="minutes"]`.
 5. Go to Board Documents → Meetings (Agendas & Minutes) → Add New, enter the meeting date, choose a status, add PDFs, and publish.
 
 == Frequently Asked Questions ==
@@ -92,6 +92,13 @@ The meeting is saved as a draft and an admin notice explains why. The date is re
 No. Meetings and their meta are kept so nothing is lost by accident. Delete the Board Meetings manually if you want them gone.
 
 == Changelog ==
+
+= 1.1.0 =
+* Post type slug renamed to `bmd_meeting` (was `board_meeting`) to avoid collisions with other board-meeting plugins; existing meetings are migrated automatically on first load.
+* Shortcodes renamed to `[bmd_meetings]` and `[bmd_documents]`; the old `[board_meetings]` / `[board_documents]` tags keep working as aliases unless another plugin claims them.
+* Admin menu renamed to "Board Documents".
+* Added Document Sections (Annual Reports, Audit Reports, Budget…) with `[bmd_documents]`.
+* Added Duplicate row action, row reordering, Instructions page.
 
 = 1.0.0 =
 * Initial release.
